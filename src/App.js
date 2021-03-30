@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
 import './App.css';
-import ProfileList from "./profileList";
-
+import DefaultTopLevel from "./Dependencies";
 
 const App = () => {
   return (
    <div className="App">
-     <ProfileList/>
+    <DefaultTopLevel/>
    </div>
   );
 };
