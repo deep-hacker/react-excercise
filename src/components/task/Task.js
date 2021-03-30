@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import useSummary from "../../Summary/useSummary";
 const Task = ({backend}) => {
     const SummaryContext = useSummary();
-    const updateSummary = async () => { return await SummaryContext.updateSummary()};
+    const updateSummary = async () => await SummaryContext.updateSummary();
     const [tasks,setTasks] = useState([]);
     const [flag,setFlag] = useState(false);
     useEffect(() => {

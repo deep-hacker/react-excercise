@@ -22,6 +22,14 @@ const Summary = () => {
                     Tasks Across All Profiles
                 </div>
             </div>
+            <div className="statistic">
+                <div className="value">
+                    {SummaryContext.numberOfCompletedTask}
+                </div>
+                <div className="label">
+                    Completed Tasks Across All Profiles
+                </div>
+            </div>
         </div>
     );
 }

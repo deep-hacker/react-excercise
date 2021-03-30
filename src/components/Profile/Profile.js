@@ -60,7 +60,6 @@ const Profile = ({backend}) => {
         const deleteTasksForProfile = task => backend.deleteTask(task.id);
         R.map(deleteTasksForProfile,R.filter(getTaskByProfile,fetchedTask));
         await backend.deleteProfile(id);
-        await updateSummary;
         setFlag(!flag)
     }
 

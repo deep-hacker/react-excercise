@@ -1,3 +1,4 @@
+import * as R from 'ramda'
 const createBackend = fetch => {
     const fetchProfiles = async () => {
         const response = await fetch("/proxy/profile");
@@ -36,11 +37,14 @@ const createBackend = fetch => {
     const fetchSummary = async() => {
         const profiles = await fetchProfiles();
         const tasks = await fetchTasks();
+        const getCompletedTasks = task => task.complete === true
+        const completedTasks = R.filter(getCompletedTasks,tasks)
+        const numberOfCompletedTask = completedTasks.length;
         const numberOfProfiles = profiles.length;
         const numberOfTasksAcrossAllProfiles = tasks.length;
         console.log(numberOfProfiles);
         console.log(numberOfTasksAcrossAllProfiles);
-        return {numberOfProfiles,numberOfTasksAcrossAllProfiles};
+        return {numberOfProfiles,numberOfTasksAcrossAllProfiles,numberOfCompletedTask};
         }
 
     const backend = {
