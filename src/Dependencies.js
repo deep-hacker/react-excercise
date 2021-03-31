@@ -3,9 +3,9 @@ import createBackend from "./components/Backend/Backend";
 import Profile from "./components/Profile/Profile";
 import Task from "./components/task/Task"
 import Routes from "./components/Route/Routes";
-import SummaryProvider from "./Summary/SummaryProvider";
+import SummaryProvider from "./components/Summary/SummaryProvider";
 import TopLevel from "./TopLevel/TopLevel";
-import Summary from "./Summary/Summary"
+import Summary from "./components/Summary/Summary"
 const fetchCollaborator = fetch;
 const backend = createBackend(fetchCollaborator);
 const DefaultProfile = () => <Profile backend={backend}/>;
