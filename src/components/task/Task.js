@@ -7,7 +7,6 @@ const Task = ({backend}) => {
     const [tasks,setTasks] = useState([]);
     useEffect(() => {
         loadTasks();
-        updateSummary();
     },[])
     const loadTasks = async () => {
         try {
