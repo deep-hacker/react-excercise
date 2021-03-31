@@ -6,18 +6,18 @@ const createBackend = fetch => {
         return profiles;
     };
 
-    const addProfile =  name => {
-        fetch("/proxy/profile",{method:'POST',body:JSON.stringify({name})})
+    const addProfile =  async name => {
+        await fetch("/proxy/profile",{method:'POST',body:JSON.stringify({name})})
             .then(res => console.log(res))
     };
 
-    const deleteProfile = id => {
-        fetch(`/proxy/profile/${id}`,{method:'DELETE'})
+    const deleteProfile = async id => {
+        await fetch(`/proxy/profile/${id}`,{method:'DELETE'})
             .then(`${id} is deleted successfully`)
     };
 
-    const addTask = taskJson => {
-        fetch('/proxy/task',{method:'POST',body:JSON.stringify(taskJson)})
+    const addTask = async taskJson => {
+        await fetch('/proxy/task',{method:'POST',body:JSON.stringify(taskJson)})
     }
 
     const fetchTasks = async () => {
@@ -26,12 +26,12 @@ const createBackend = fetch => {
         return tasks;
     }
 
-    const updateTask = taskJson => {
-        fetch(`/proxy/task/${taskJson.id}`,{method:'POST',body:JSON.stringify(taskJson)})
+    const updateTask = async taskJson => {
+        await fetch(`/proxy/task/${taskJson.id}`,{method:'POST',body:JSON.stringify(taskJson)})
     }
 
-    const deleteTask = taskId => {
-        fetch(`/proxy/task/${taskId}`,{method:'DELETE'})
+    const deleteTask = async taskId => {
+        await fetch(`/proxy/task/${taskId}`,{method:'DELETE'})
     }
 
     const fetchSummary = async() => {

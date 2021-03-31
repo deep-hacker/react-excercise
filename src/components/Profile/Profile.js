@@ -1,16 +1,14 @@
 import React, {useEffect, useState} from "react";
 import * as R from "ramda";
 import '../../App.css'
-import useSummary from "../../Summary/useSummary";
+import useSummary from "../Summary/useSummary";
 const Profile = ({backend}) => {
     const SummaryContext = useSummary();
     const updateSummary = async () => await SummaryContext.updateSummary();
     const [profiles, setProfiles] = useState([]);
-    const [flag,setFlag] = useState(false)
     useEffect(() => {
         loadProfiles();
-        updateSummary()
-    }, [flag]);
+    }, []);
 
     const createProfileList = (profile) => {
         return (<div  key={profile.id}>
@@ -28,13 +26,9 @@ const Profile = ({backend}) => {
     };
 
     const loadProfiles = async () => {
-        try {
+
             const fetchProfile = await backend.fetchProfiles();
-            setProfiles(fetchProfile);
-        }
-        catch (e) {
-            console.error(e);
-        }
+            await setProfiles(fetchProfile);
     };
 
     const AddProfile = () => {
@@ -44,7 +38,8 @@ const Profile = ({backend}) => {
             if (newProfileName === '') return;
             if (event.key !== 'Enter') return;
             await backend.addProfile(newProfileName);
-            setFlag(!flag)
+            await loadProfiles();
+            await updateSummary();
         })
         return (<div className="ui input focus"><input value={newProfileName}
                       placeholder={'Create new profile'}
@@ -60,7 +55,8 @@ const Profile = ({backend}) => {
         const deleteTasksForProfile = task => backend.deleteTask(task.id);
         R.map(deleteTasksForProfile,R.filter(getTaskByProfile,fetchedTask));
         await backend.deleteProfile(id);
-        setFlag(!flag)
+        await loadProfiles();
+        await updateSummary();
     }
 
     return (<>
