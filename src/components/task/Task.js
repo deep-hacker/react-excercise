@@ -5,25 +5,25 @@ const Task = ({backend}) => {
     const SummaryContext = useSummary();
     const updateSummary = async () => await SummaryContext.updateSummary();
     const [tasks,setTasks] = useState([]);
-    const [flag,setFlag] = useState(false);
     useEffect(() => {
         loadTasks();
         updateSummary();
-    },[flag])
+    },[])
     const loadTasks = async () => {
         try {
             const fetchTask = await backend.fetchTasks();
-            setTasks(fetchTask);
+            await setTasks(fetchTask);
         }
         catch (e) {
             console.error(e);
         }
     };
-    const updateTask = task => {backend.updateTask(task)};
-    const handleOnClick = (event,taskToUpdate) => {
+    const updateTask = async task => {await backend.updateTask(task)};
+    const handleOnClick = async (event,taskToUpdate) => {
         taskToUpdate.complete = !taskToUpdate.complete;
-        updateTask(taskToUpdate)
-        setFlag(!flag)
+        await updateTask(taskToUpdate);
+        await loadTasks();
+        await updateSummary();
     }
     const pathNameArray = window.location.pathname.split("/");
     const findTaskByProfile = task => task.profile === pathNameArray[2] ;
@@ -32,9 +32,9 @@ const Task = ({backend}) => {
         const taskToUpdate = {...task};
         return (<div className="item" key={task.id} style={taskToUpdate.complete?{"textDecoration": "line-through"}:{}} onClick={event => handleOnClick(event,taskToUpdate)}>{task.name}</div>) };
     const taskListRendered = R.map(renderTasks,taskList);
-    const deleteCompletedTask = task => backend.deleteTask(task.id);
+    const deleteCompletedTask = async task => await backend.deleteTask(task.id);
     const getCompletedTask = task => task.complete === true;
-   const clearCompletedTask = () => { R.map(deleteCompletedTask,R.filter(getCompletedTask,taskList)); setFlag(!flag); }
+   const clearCompletedTask = async () => { R.map(deleteCompletedTask,R.filter(getCompletedTask,taskList)); await loadTasks(); await updateSummary(); }
 
     const AddTask = () => {
         const [taskName,setTaskName] = useState('');
@@ -47,12 +47,14 @@ const Task = ({backend}) => {
             TaskJson.name = taskName;
             TaskJson.complete = false;
             await backend.addTask(TaskJson);
-            setFlag(!flag)
+            await loadTasks();
+            await updateSummary();
         }
         return (<div className="ui input focus"><input value={taskName}
                                                        placeholder={'Create new Task'}
                                                        onKeyUp={newTaskOnKeyUp}
-                                                       onChange={newTaskOnChange}/>
+                                                       onChange={newTaskOnChange}
+        autoFocus={true}/>
         </div>);
     };
 
