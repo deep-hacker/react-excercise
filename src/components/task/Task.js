@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import * as R from 'ramda'
-import useSummary from "../../Summary/useSummary";
+import useSummary from "../Summary/useSummary";
 const Task = ({backend}) => {
     const SummaryContext = useSummary();
     const updateSummary = async () => await SummaryContext.updateSummary();
